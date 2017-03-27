@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	default-destroy-method="destroy" default-init-method="init"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="person" class="com.nav.spring.test.Person" scope="singleton"
+		init-method="onCreate" destroy-method="onDestroy">
+		<constructor-arg value="777" name="id"></constructor-arg>
+		<constructor-arg value="Mary" name="name"></constructor-arg>
+		<property name="id" value="12"></property>
+		<property name="taxId" value="123"></property>
+		<property name="address" ref="address"></property>
+	</bean>
+
+	<bean id="person2" class="com.nav.spring.test.Person" scope="singleton"
+		init-method="onCreate" destroy-method="onDestroy" factory-method="createPerson"
+		factory-bean="personFactory">
+		<constructor-arg value="123" name="id"></constructor-arg>
+		<constructor-arg value="Navneet" name="name"></constructor-arg>
+		<property name="taxId" value="123"></property>
+		<property name="address" ref="address"></property>
+	</bean>
+
+	<bean id="address" class="com.nav.spring.test.Address">
+		<constructor-arg name="street" value="No. 1 church lane"></constructor-arg>
+		<constructor-arg name="postcode" value="96666"></constructor-arg>
+	</bean>
+
+
+	<bean id="address2" class="com.nav.spring.test.Address" p:street="Lanco Hills Road"
+		p:postcode="55555">
+
+	</bean>
+	<bean id="personFactory" class="com.nav.spring.test.PersonFactory">
+	</bean>
+	<bean id="basket" class="com.nav.spring.test.FruitBasket">
+		<constructor-arg value="John's Basket" name="name"></constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>apple</value>
+				<value>banana</value>
+				<value>pear</value>
+				<value>pear</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="basket2" class="com.nav.spring.test.FruitBasket">
+		<constructor-arg value="John's Basket" name="name"></constructor-arg>
+		<constructor-arg>
+			<set>
+				<value>apple</value>
+				<value>banana</value>
+				<value>pear</value>
+				<value>pear</value>
+			</set>
+		</constructor-arg>
+	</bean>
+
+	<bean id="jungle" class="com.nav.spring.test.Jungle">
+		<property name="largest" ref="elephant"></property>
+		<property name="animals">
+
+			<list>
+				<ref bean="snake" />
+				<ref bean="elephant" />
+				<ref bean="lion" />
+			</list>
+		</property>
+
+	</bean>
+
+
+	<bean id="lion" class="com.nav.spring.test.Animal">
+		<property name="name" value="Igor"></property>
+		<property name="type" value="lion"></property>
+	</bean>
+
+	<bean id="elephant" class="com.nav.spring.test.Animal">
+		<property name="name" value="Richard"></property>
+		<property name="type" value="elephant"></property>
+	</bean>
+
+	<bean id="snake" class="com.nav.spring.test.Animal">
+		<property name="name" value="Bob"></property>
+		<property name="type" value="snake"></property>
+	</bean>
+
+
+	<bean id="jungle2" class="com.nav.spring.test.JungleMap">
+		<property name="foods">
+			<props>
+				<prop key="gorilla">banana</prop>
+				<prop key="panda">bamboo</prop>
+				<prop key="snake">egg</prop>
+			</props>
+		</property>
+		<property name="animals">
+			<map>
+				<entry key="lion" value-ref="lion"></entry>
+				<entry key="Elep" value-ref="elephant"></entry>
+				<entry key="Snake" value-ref="snake"></entry>
+			</map>
+		</property>
+	</bean>
+
+
+	<context:annotation-config></context:annotation-config>
+</beans>
